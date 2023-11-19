@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      /*初始化界面相关属性*/
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      position: relative;
+      display: flex;
+      background-color: gray;
+      width: 800px;
+      height: 500px;
+      margin: 0 auto;
+    }
+
+    .item {
+      width: 0;
+      height: 500px;
+      transition: all 0.5s;
+    }
+
+    .active {
+      width: 100%;
+    }
+
+    button {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="item active" style="background-color: green;"></div>
+    <div class="item" style="background-color: #d35400;"></div>
+    <div class="item " style="background-color: #95a5a6;"></div>
+    <button onclick="slideTo(active-1)">prev</button>
+    <button onclick="slideTo(active+1)"> <svg t="1700140932226" class="icon" viewBox="0 0 1024 1024" version="1.1"
+        xmlns="http://www.w3.org/2000/svg" p-id="1483" width="48" height="48">
+        <path
+          d="M0 512c0 281.6 230.4 512 512 512s512-230.4 512-512-230.4-512-512-512-512 230.4-512 512z m938.496 0c0 234.496-192 426.496-426.496 426.496s-426.496-192-426.496-426.496S277.504 85.504 512 85.504c234.496-0.512 426.496 191.488 426.496 426.496z"
+          p-id="1484"></path>
+        <path
+          d="M396.8 289.792l221.696 221.696-221.696 221.696c-16.896 16.896-16.896 42.496 0 59.904 16.896 16.896 42.496 16.896 59.904 0l251.904-251.904c16.896-16.896 16.896-42.496 0-59.904l-251.904-251.904c-12.8-16.896-42.496-16.896-59.904 0-16.896 17.92-16.896 43.52 0 60.416z"
+          p-id="1485"></path>
+      </svg></button>
+  </div>
+
+
+
+</body>
+
+<script>
+  //index 
+  let active = 0//当前显示的页
+  function slideTo (index) {
+    //1.获得所有item
+    const items = document.querySelectorAll('.item')
+    const item = items[index]
+    //卸载active
+    items[active].classList.remove('active')
+    //2.设置active
+    item.classList.add('active')
+    active = index
+    console.log(active)
+  }
+  //setTimeout(slideTo(active + 1), 2000)
+
+
+  slideTo(0)
+
+</script>
+
+</html>
