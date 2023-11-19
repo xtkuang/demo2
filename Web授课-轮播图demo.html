@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>轮播图</title>
+
+  <style>
+    * {
+      /*初始化界面相关属性*/
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .carousel-container {
+      /*轮播图容器*/
+      position: relative;
+      /*设置相对定位，便于分页器以及按钮定位*/
+      display: flex;
+      /*flex布局，将子盒子控制到同一个水平面上*/
+      margin: 50px auto;
+      /*水平居中*/
+      height: 70vh;
+      width: 80%;
+      background-color: gray;
+      overflow: hidden;
+      /*溢出隐藏*/
+    }
+
+    .carousel-item {
+
+      height: 100%;
+      background-color: #fda;
+      width: 0;
+      transition: all 0.5s;
+      /*延时，翻页动画效果的来源*/
+    }
+
+    .carousel-item.active {
+      display: block;
+      width: 100%;
+    }
+
+    button {
+      all: unset;
+    }
+
+    .next {
+      position: absolute;
+      right: 20px;
+      top: 50%
+    }
+
+    .prev {
+      position: absolute;
+      left: 20px;
+      top: 50%
+    }
+
+    .pager {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+
+      width: 200px;
+      height: 30px;
+      background-color: #fff;
+      border-radius: 15px;
+
+    }
+
+    .active svg path {
+      fill: skyblue !important;
+
+    }
+  </style>
+</head>
+<!-- 
+  轮播图
+ -->
+
+<body>
+
+  <div class="carousel-container">
+    <div class="carousel-item" style="background-color: #3498db;">Item 1</div>
+    <div class="carousel-item" style="background-color: #2ecc71;">Item 2</div>
+    <div class="carousel-item" style="background-color: #e74c3c;">Item 3</div>
+    <div class="carousel-item" style="background-color: #f39c12;">Item 4</div>
+    <div class="carousel-item" style="background-color: #9b59b6;">Item 5</div>
+    <div class="carousel-item" style="background-color: #1abc9c;">Item 6</div>
+    <div class="carousel-item" style="background-color: #e67e22;">Item 7</div>
+    <div class="carousel-item" style="background-color: #34495e;">Item 8</div>
+    <div class="carousel-item" style="background-color: #95a5a6;">Item 9</div>
+    <div class="carousel-item" style="background-color: #d35400;">Item 10</div>
+    <div class="console">
+      <button onclick="slideTo(active-1)" class="prev">
+        <svg t="1700141049120" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+          p-id="2582" width="48" height="48">
+          <path
+            d="M1024 512c0-281.6-230.4-512-512-512s-512 230.4-512 512 230.4 512 512 512 512-230.4 512-512z m-938.496 0c0-234.496 192-426.496 426.496-426.496s426.496 192 426.496 426.496-192 426.496-426.496 426.496-426.496-192-426.496-426.496z"
+            p-id="2583"></path>
+          <path
+            d="M627.2 733.696l-221.696-221.696 221.696-221.696c16.896-16.896 16.896-42.496 0-59.904-16.896-16.896-42.496-16.896-59.904 0l-251.904 251.904c-16.896 16.896-16.896 42.496 0 59.904l251.904 251.904c12.8 16.896 42.496 16.896 59.904 0 16.896-17.92 16.896-43.52 0-60.416z"
+            p-id="2584"></path>
+        </svg></button>
+
+      <button onclick="slideTo(active+1)" class="next">
+        <svg t="1700140932226" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
+          p-id="1483" width="48" height="48">
+          <path
+            d="M0 512c0 281.6 230.4 512 512 512s512-230.4 512-512-230.4-512-512-512-512 230.4-512 512z m938.496 0c0 234.496-192 426.496-426.496 426.496s-426.496-192-426.496-426.496S277.504 85.504 512 85.504c234.496-0.512 426.496 191.488 426.496 426.496z"
+            p-id="1484"></path>
+          <path
+            d="M396.8 289.792l221.696 221.696-221.696 221.696c-16.896 16.896-16.896 42.496 0 59.904 16.896 16.896 42.496 16.896 59.904 0l251.904-251.904c16.896-16.896 16.896-42.496 0-59.904l-251.904-251.904c-12.8-16.896-42.496-16.896-59.904 0-16.896 17.92-16.896 43.52 0 60.416z"
+            p-id="1485"></path>
+        </svg></button>
+    </div>
+    <div class="pager">
+
+    </div>
+  </div>
+
+
+</body>
+<script>
+  // 获取轮播容器和轮播项
+
+
+  const slideTo = (index) => {//轮播页跳转函数
+    //index值范围设计，简单实现循环
+    index >= items.length ? index = 0 : null
+    index < 0 ? index = items.length - 1 : null
+    //切换到指定页面，当前页面取消active
+    items[active].classList.remove('active')
+    pagerItems[active].classList.remove('active')
+    // 切换到指定页面，指定页面添加active
+    items[index].classList.add('active')
+    pagerItems[index].classList.add('active')
+
+    active = index
+
+  }
+
+  // 设置定时器，每隔一定时间切换轮播项
+  // setInterval(showNextItem, 3000) // 3000 毫秒（3秒）为例，可以根据需求调整
+  function createPager () {//创建导航
+    for (let i = 0; i < items.length; i++) {
+      const pagerItem = document.createElement('button')//创建元素botton
+      pagerItem.innerHTML = '<svg t="1700142195198" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4477" width="16" height="16"><path d="M511.99936349 330.78250169c100.07701641 0 181.21749831 81.17039746 181.21749832 181.21749831 0 100.10629546-81.14048193 181.21749831-181.21749832 181.21749831-100.07637989 0-181.21749831-81.11120291-181.2174983-181.21749831 0-100.04710085 81.14111844-181.21749831 181.2174983-181.21749831z" fill="rgba(0,0,0,0.2)" p-id="4478"></path></svg>'
+      //嵌入svg图，，，可以考虑其他方式
+      pagerItem.addEventListener('click', () => {//添加事件监听
+        slideTo(i)
+      })
+      pager.appendChild(pagerItem)//将小圆点加入分页器
+      pagerItems.push(pagerItem)//记录小圆点
+    }
+  }
+  const container = document.querySelector('.carousel-container')//轮播图容器
+  const items = document.querySelectorAll('.carousel-item')//轮播页
+  const pager = document.querySelector('.pager')//分页器导航
+  const pagerItems = []//小圆点的数组
+  let active = 0//活动页索引
+  createPager()//创建pager
+  slideTo(0)//设定初始页
+
+</script>
+
+<!-- <script>
+  测试函数，随机创建轮播页
+  for (let i = 1; i <= 10; i++) {
+      // 生成不同的颜色
+      const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+
+      // 创建轮播项
+      document.write(`<div class="carousel-item" style="background-color: ${randomColor};">Item ${i}</div>`);
+  }
+</script> -->
+
+</html>
